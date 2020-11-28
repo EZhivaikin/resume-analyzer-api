@@ -6,7 +6,7 @@ from pydantic import BaseModel
 class VacancyBase(BaseModel):
     title: str
     url: str
-
+    id: int
 
 class Vacancy(VacancyBase):
     pass

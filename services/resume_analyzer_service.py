@@ -54,6 +54,7 @@ class ResumeAnalyzer:
 
         vacancies = [
             Vacancy(
+                id=vacancy['id'],
                 title=vacancy['name'],
                 url=f"{VACANCIES_HOST}/api/vacancies/{vacancy['id']}",
             ) for vacancy in relevant_vacancies
