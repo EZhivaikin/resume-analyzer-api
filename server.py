@@ -32,7 +32,7 @@ async def get_relevant_vacancies(resume: UploadFile = File(...)):
 
 
 @app.get('/upload-vacancies', tags=['internal'])
-async def get_vacancies_from_api():
+async def upload_vacancies_to_json():
     try:
         await vacancies_service.upload_vacancies()
     except Exception as e:
@@ -44,7 +44,7 @@ async def get_vacancies_from_api():
 
 
 @app.post('/seed-vacancies-db', tags=['internal'])
-async def get_vacancies_from_api():
+async def seed_vacancies_for_db():
     try:
         results = await vacancies_service.seed_vacancies_db()
     except Exception as e:
@@ -56,7 +56,7 @@ async def get_vacancies_from_api():
 
 
 @app.post('/update-analyzer', tags=['internal'])
-async def get_vacancies_from_api():
+async def update_analyzer_data():
     try:
         resume_analyzer.update_tfidf_values()
     except Exception as e:
