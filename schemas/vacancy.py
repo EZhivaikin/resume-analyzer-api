@@ -8,9 +8,11 @@ class VacancyBase(BaseModel):
     url: str
     id: int
 
+
 class Vacancy(VacancyBase):
     pass
 
 
 class VacancyList(BaseModel):
     vacancies: List[Vacancy]
+    keywords: List[str]

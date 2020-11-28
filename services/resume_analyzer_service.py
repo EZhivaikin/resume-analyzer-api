@@ -52,7 +52,7 @@ class ResumeAnalyzer:
         resume_idfs = self._tfidf_transformer.transform(resume_vals)
         cosine_similarities = cosine_similarity(resume_idfs, self._docs_idfs_vector).flatten()
         relevant_vacancies = self._get_top_five_ids(cosine_similarities)
-
+        keywords = self._get_keywords(resume_idfs)
         vacancies = [
             Vacancy(
                 id=vacancy['id'],
@@ -60,7 +60,7 @@ class ResumeAnalyzer:
                 url=f"{VACANCIES_HOST}/api/vacancies/{vacancy['id']}",
             ) for vacancy in relevant_vacancies
         ]
-        vacancy_list = VacancyList(vacancies=vacancies)
+        vacancy_list = VacancyList(vacancies=vacancies, keywords=keywords)
 
         return vacancy_list
 
@@ -89,3 +89,9 @@ class ResumeAnalyzer:
         words = self._stem.lemmatize(doc.lower())
         words = [word for word in words if word not in stop_words]
         return ' '.join(words)
+
+    def _get_keywords(self, resume_idfs):
+        words_idfs = list(zip(self._count_vectorizer.get_feature_names(), resume_idfs.toarray()[0]))
+        words_idfs.sort(key=lambda x: x[1], reverse=True)
+        keywords = [word[0] for word in words_idfs]
+        return keywords
