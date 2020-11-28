@@ -48,8 +48,6 @@ class VacanciesService:
         for future in asyncio.as_completed(futures):
             await future
 
-
-
     async def _get_vacancies(self, path):
         url = f'{self._host}{path}'
         data = await async_request(url=url, method='GET')

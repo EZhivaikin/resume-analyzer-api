@@ -42,6 +42,7 @@ class ResumeAnalyzer:
             docs.append(self._preprocess_resume_text(text))
 
         X = self._count_vectorizer.fit_transform(docs)
+        del docs
         self._docs_idfs_vector = self._tfidf_transformer.fit_transform(X)
         self._vacancies_ids = [vacancy['id'] for vacancy in self._vacancies]
 
