@@ -19,7 +19,7 @@ class VacanciesService:
         path = '/api/vacancies'
         data = self._prepare_vacancies_data()
         vacancies = await self._get_vacancies(path)
-        if len(vacancies) == 0:
+        if len(vacancies) < 50:
             return
         results = await self._load_vacancies_to_service(path, data)
         successful_count = 0
