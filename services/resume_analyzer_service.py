@@ -60,7 +60,7 @@ class ResumeAnalyzer:
                 url=f"{VACANCIES_HOST}/api/vacancies/{vacancy['id']}",
             ) for vacancy in relevant_vacancies
         ]
-        vacancy_list = VacancyList(vacancies=vacancies, keywords=keywords)
+        vacancy_list = VacancyList(vacancies=vacancies, keywords=keywords[:5])
 
         return vacancy_list
 
