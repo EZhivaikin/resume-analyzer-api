@@ -23,6 +23,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
 @app.post('/get-relevant-vacancies', tags=['public'])
 async def get_relevant_vacancies(resume: UploadFile = File(...)):
     resume_text = await resume.read()
@@ -47,6 +48,18 @@ async def upload_vacancies_to_json():
 async def seed_vacancies_for_db():
     try:
         results = await vacancies_service.seed_vacancies_db()
+    except Exception as e:
+        return {
+            'status': 'fail',
+            'errors': str(e)
+        }
+    return results
+
+
+@app.post('/seed-screening-db', tags=['internal'])
+async def seed_screening_for_db():
+    try:
+        results = await vacancies_service.seed_screening_db()
     except Exception as e:
         return {
             'status': 'fail',

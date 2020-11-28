@@ -3,6 +3,7 @@ import json
 from typing import List
 
 from async_request import async_request
+from default_test import default_test
 
 
 class VacanciesService:
@@ -30,6 +31,24 @@ class VacanciesService:
             else:
                 fail_count += 1
         return {'success': successful_count, 'fail': fail_count}
+
+    async def seed_screening_db(self):
+        vacancies = await self._get_vacancies('/api/vacancies')
+        sample_test = json.dumps(default_test)
+        futures = []
+        for vacancy in vacancies:
+            path = f'/api/vacancies/{vacancy["id"]}/screening-tests'
+            url = f"{self._host}{path}"
+            headers = {'Content-Type': 'application/json'}
+            task = async_request(
+                url=url, method='POST', data=sample_test, headers=headers
+            )
+            futures.append(task)
+
+        for future in asyncio.as_completed(futures):
+            await future
+
+
 
     async def _get_vacancies(self, path):
         url = f'{self._host}{path}'
